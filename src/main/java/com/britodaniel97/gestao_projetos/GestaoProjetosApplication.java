@@ -8,6 +8,5 @@ public class GestaoProjetosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestaoProjetosApplication.class, args);
-		System.out.println("oi");
 	}
 }
