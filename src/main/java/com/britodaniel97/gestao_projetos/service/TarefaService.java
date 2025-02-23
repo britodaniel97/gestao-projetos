@@ -3,7 +3,7 @@ package com.britodaniel97.gestao_projetos.service;
 import com.britodaniel97.gestao_projetos.dto.TarefaDTO;
 import com.britodaniel97.gestao_projetos.entity.Tarefa;
 import com.britodaniel97.gestao_projetos.repository.TarefaRepository;
-import com.britodaniel97.gestao_projetos.util.DTOConverter;
+import com.britodaniel97.gestao_projetos.mapper.DTOConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -9,7 +9,25 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate.default_schema: gestao_system
 
   sql:
     init:
       mode: always
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/gestao-projetos
+          jwk-set-uri: http://localhost:9090/realms/gestao-projetos/protocol/openid-connect/certs
+
+keycloak:
+  auth-server-url: http://localhost:9090
+  realm: gestao-projetos
+  resource: gestao-projetos-backend
+  bearer-only: true
+  credentials:
+    secret: LgoianiT426BJzBqd7stBpmA6k1HZlM5
+  use-resource-role-mappings: true

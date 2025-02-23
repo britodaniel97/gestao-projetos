@@ -1,11 +1,9 @@
-package com.britodaniel97.gestao_projetos.util;
+package com.britodaniel97.gestao_projetos.mapper;
 
 import com.britodaniel97.gestao_projetos.dto.ProjetoDTO;
 import com.britodaniel97.gestao_projetos.dto.TarefaDTO;
-import com.britodaniel97.gestao_projetos.dto.UsuarioDTO;
 import com.britodaniel97.gestao_projetos.entity.Projeto;
 import com.britodaniel97.gestao_projetos.entity.Tarefa;
-import com.britodaniel97.gestao_projetos.entity.Usuario;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +14,7 @@ public class DTOConverter {
         if (tarefa == null) {
             return null;
         }
-        String assignedToName = (tarefa.getAssignedTo() != null) ? tarefa.getAssignedTo().getName() : null;
+        String assignedToName = (tarefa.getAssignedTo() != null) ? tarefa.getAssignedTo() : null;
         String projetoName = (tarefa.getProjeto() != null) ? tarefa.getProjeto().getName() : null;
         String status = (tarefa.getStatus() != null) ? tarefa.getStatus().name() : null;
         return new TarefaDTO(
@@ -40,7 +38,7 @@ public class DTOConverter {
         if (projeto == null) {
             return null;
         }
-        String managerName = (projeto.getManager() != null) ? projeto.getManager().getName() : null;
+        String managerName = (projeto.getManager() != null) ? projeto.getManager() : null;
         String status = (projeto.getStatus() != null) ? projeto.getStatus().name() : null;
         List<TarefaDTO> tarefasDTO = (projeto.getTarefas() != null) ? convertTarefaListToDTO(projeto.getTarefas()) : null;
         return new ProjetoDTO(
@@ -58,27 +56,6 @@ public class DTOConverter {
                 .map(DTOConverter::convertProjetoToDTO)
                 .collect(Collectors.toList());
     }
-
-
-    public static UsuarioDTO convertUsuarioToDTO(Usuario usuario) {
-        if (usuario == null) {
-            return null;
-        }
-        String role = (usuario.getRole() != null) ? usuario.getRole().name() : null;
-        return new UsuarioDTO(
-                usuario.getId(),
-                usuario.getName(),
-                usuario.getEmail(),
-                role
-        );
-    }
-
-    public static List<UsuarioDTO> convertUsuarioListToDTO(List<Usuario> usuarios) {
-        return usuarios.stream()
-                .map(DTOConverter::convertUsuarioToDTO)
-                .collect(Collectors.toList());
-    }
-
 
     public static Tarefa convertDTOToTarefa(TarefaDTO tarefaDTO) {
         if (tarefaDTO == null) {
@@ -104,17 +81,4 @@ public class DTOConverter {
         return projeto;
     }
 
-    public static Usuario convertDTOToUsuario(UsuarioDTO usuarioDTO) {
-        if (usuarioDTO == null) {
-            return null;
-        }
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioDTO.id());
-        usuario.setName(usuarioDTO.name());
-        usuario.setEmail(usuarioDTO.email());
-        if (usuarioDTO.role() != null) {
-            usuario.setRole(com.britodaniel97.gestao_projetos.enums.UserRole.valueOf(usuarioDTO.role()));
-        }
-        return usuario;
-    }
 }

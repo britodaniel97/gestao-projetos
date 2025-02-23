@@ -7,6 +7,7 @@ public record TarefaDTO(
         String title,
         String description,
         String assignedToName,
+        String assignedToId,
         String projetoName,
         String status
 ) {}

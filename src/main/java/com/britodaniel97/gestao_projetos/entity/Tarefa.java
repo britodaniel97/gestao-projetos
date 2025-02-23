@@ -8,8 +8,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tarefas")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tarefa {
 
     @Id
@@ -19,9 +21,8 @@ public class Tarefa {
     private String title;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "assigned_to", nullable = false)
-    private Usuario assignedTo;
+    @Column(name = "assigned_to")
+    private String assignedTo;
 
     @ManyToOne
     @JoinColumn(name = "projeto_id", nullable = false)

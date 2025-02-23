@@ -9,8 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "projetos")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Projeto {
 
     @Id
@@ -20,9 +22,8 @@ public class Projeto {
     private String name;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id", nullable = false)
-    private Usuario manager;
+    @Column(name = "manager")
+    private String manager;
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;

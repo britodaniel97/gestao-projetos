@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS keycloak AUTHORIZATION user_gestao;
+
+CREATE SCHEMA IF NOT EXISTS gestao_system AUTHORIZATION user_gestao;
