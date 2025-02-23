@@ -2,50 +2,52 @@ package com.britodaniel97.gestao_projetos.service;
 
 import com.britodaniel97.gestao_projetos.dto.UsuarioDTO;
 import com.britodaniel97.gestao_projetos.entity.Usuario;
-import com.britodaniel97.gestao_projetos.mapper.UsuarioMapper;
 import com.britodaniel97.gestao_projetos.repository.UsuarioRepository;
+import com.britodaniel97.gestao_projetos.util.DTOConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper) {
+    public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.usuarioMapper = usuarioMapper;
     }
 
     public List<UsuarioDTO> listarUsuarios() {
         List<Usuario> usuarios = usuarioRepository.findAll();
-        return usuarioMapper.toDTOList(usuarios);
+        return usuarios.stream()
+                .map(DTOConverter::convertUsuarioToDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<UsuarioDTO> buscarUsuarioPorId(UUID id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(usuarioMapper::toDTO);
+        return usuarioRepository.findById(id)
+                .map(DTOConverter::convertUsuarioToDTO);
     }
 
     public UsuarioDTO criarUsuario(UsuarioDTO usuarioDTO) {
-        Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
+        Usuario usuario = DTOConverter.convertDTOToUsuario(usuarioDTO);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
-        return usuarioMapper.toDTO(usuarioSalvo);
+        return DTOConverter.convertUsuarioToDTO(usuarioSalvo);
     }
 
     public Optional<UsuarioDTO> atualizarUsuario(UUID id, UsuarioDTO usuarioDTO) {
-        Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
-        if (usuarioExistente.isPresent()) {
-            Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
-            usuario.setId(id);
-            Usuario usuarioAtualizado = usuarioRepository.save(usuario);
-            return Optional.of(usuarioMapper.toDTO(usuarioAtualizado));
-        }
-        return Optional.empty();
+        return usuarioRepository.findById(id).map(usuarioExistente -> {
+            usuarioExistente.setName(usuarioDTO.name());
+            usuarioExistente.setEmail(usuarioDTO.email());
+            if (usuarioDTO.role() != null) {
+                usuarioExistente.setRole(com.britodaniel97.gestao_projetos.enums.UserRole.valueOf(usuarioDTO.role()));
+            }
+            Usuario usuarioAtualizado = usuarioRepository.save(usuarioExistente);
+            return DTOConverter.convertUsuarioToDTO(usuarioAtualizado);
+        });
     }
 
     public boolean deletarUsuario(UUID id) {

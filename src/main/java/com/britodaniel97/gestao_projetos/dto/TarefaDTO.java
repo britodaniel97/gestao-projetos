@@ -1,6 +1,5 @@
 package com.britodaniel97.gestao_projetos.dto;
 
-import com.britodaniel97.gestao_projetos.enums.TaskStatus;
 import java.util.UUID;
 
 public record TarefaDTO(
@@ -9,6 +8,5 @@ public record TarefaDTO(
         String description,
         String assignedToName,
         String projetoName,
-        UUID projetoId,
-        TaskStatus status
+        String status
 ) {}
