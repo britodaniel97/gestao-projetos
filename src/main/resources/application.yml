@@ -29,5 +29,5 @@ keycloak:
   resource: gestao-projetos-backend
   bearer-only: true
   credentials:
-    secret: LgoianiT426BJzBqd7stBpmA6k1HZlM5
+    secret: bkHoIcm1xm0oRhyf8LYQ9WJIVkqhwTob
   use-resource-role-mappings: true

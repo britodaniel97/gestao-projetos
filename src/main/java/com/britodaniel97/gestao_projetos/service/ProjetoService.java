@@ -2,6 +2,7 @@ package com.britodaniel97.gestao_projetos.service;
 
 import com.britodaniel97.gestao_projetos.entity.Projeto;
 import com.britodaniel97.gestao_projetos.dto.ProjetoDTO;
+import com.britodaniel97.gestao_projetos.enums.ProjectStatus;
 import com.britodaniel97.gestao_projetos.repository.ProjetoRepository;
 import com.britodaniel97.gestao_projetos.mapper.DTOConverter;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class ProjetoService {
             projetoExistente.setName(projetoDTO.name());
             projetoExistente.setDescription(projetoDTO.description());
             if (projetoDTO.status() != null) {
-                projetoExistente.setStatus((projetoDTO.status()));
+                projetoExistente.setStatus(ProjectStatus.valueOf(projetoDTO.status()));
             }
             Projeto projetoAtualizado = projetoRepository.save(projetoExistente);
             return DTOConverter.convertProjetoToDTO(projetoAtualizado);

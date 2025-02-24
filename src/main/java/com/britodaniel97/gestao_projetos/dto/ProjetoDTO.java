@@ -11,6 +11,7 @@ public record ProjetoDTO(
         String description,
         String managerId,
         String managerName,
-        ProjectStatus status
+        String status,
+        List<TarefaDTO> tarefas
 ) {}
 

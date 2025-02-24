@@ -4,6 +4,7 @@ import com.britodaniel97.gestao_projetos.dto.ProjetoDTO;
 import com.britodaniel97.gestao_projetos.dto.TarefaDTO;
 import com.britodaniel97.gestao_projetos.entity.Projeto;
 import com.britodaniel97.gestao_projetos.entity.Tarefa;
+import com.britodaniel97.gestao_projetos.enums.ProjectStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class DTOConverter {
                 tarefa.getId(),
                 tarefa.getTitle(),
                 tarefa.getDescription(),
+                tarefa.getAssignedTo(),
                 assignedToName,
                 projetoName,
                 status
@@ -33,18 +35,19 @@ public class DTOConverter {
                 .collect(Collectors.toList());
     }
 
-    // Conversão de Projeto para ProjetoDTO
     public static ProjetoDTO convertProjetoToDTO(Projeto projeto) {
         if (projeto == null) {
             return null;
         }
         String managerName = (projeto.getManager() != null) ? projeto.getManager() : null;
+        String managerId  = (projeto.getManager() != null) ? projeto.getManager() : null;
         String status = (projeto.getStatus() != null) ? projeto.getStatus().name() : null;
         List<TarefaDTO> tarefasDTO = (projeto.getTarefas() != null) ? convertTarefaListToDTO(projeto.getTarefas()) : null;
         return new ProjetoDTO(
                 projeto.getId(),
                 projeto.getName(),
                 projeto.getDescription(),
+                managerId,
                 managerName,
                 status,
                 tarefasDTO

@@ -1,26 +1,27 @@
 package com.britodaniel97.gestao_projetos.config;
 
+import com.britodaniel97.gestao_projetos.security.JWTConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception {
+
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/manager/**").hasRole("PROJECT_MANAGER")
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .anyRequest().authenticated()
-                )
+                .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(withDefaults())
-                );
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(new JWTConverter())));
+
+
         return http.build();
     }
 }
